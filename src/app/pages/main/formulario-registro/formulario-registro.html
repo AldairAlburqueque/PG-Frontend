@@ -1,0 +1,239 @@
+<div class="min-h-screen flex items-center justify-center bg-[#f0dfc8] p-4 font-sans">
+  <!-- Contenedor Principal (Card) -->
+  <div
+    class="w-full max-w-5xl bg-white rounded-3xl shadow-xl overflow-hidden flex flex-col lg:flex-row"
+  >
+    <!-- Sección Izquierda: Formulario -->
+    <div class="w-full lg:w-1/2 p-8 md:p-12 lg:p-16 bg-white flex flex-col justify-center">
+      <div class="mb-8">
+        <h2 class="text-3xl font-bold text-gray-800 mb-2">Inscríbete</h2>
+        <p class="text-gray-500 text-sm">Crea tu cuenta en Pequeños Gigantes.</p>
+      </div>
+
+      <form [formGroup]="registroForm" (ngSubmit)="onSubmit()" class="space-y-5">
+        <!-- Correo Electrónico -->
+        <div class="group">
+          <label
+            for="email"
+            class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1"
+            >Correo electrónico</label
+          >
+          <input
+            type="email"
+            id="email"
+            class="w-full border-b border-gray-300 py-2 text-gray-900 bg-transparent focus:outline-none focus:border-orange-600 transition-colors placeholder-gray-400"
+            [class.border-red-500]="isFieldInvalid('email')"
+            placeholder="karina@gmail.com"
+            formControlName="email"
+          />
+          <div *ngIf="isFieldInvalid('email')" class="text-red-500 text-xs mt-1">
+            Correo inválido.
+          </div>
+        </div>
+
+        <!-- Nombres -->
+        <div class="group">
+          <label
+            for="nombres"
+            class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1"
+            >Nombres</label
+          >
+          <input
+            type="text"
+            id="nombres"
+            class="w-full border-b border-gray-300 py-2 text-gray-900 bg-transparent focus:outline-none focus:border-orange-600 transition-colors placeholder-gray-400"
+            [class.border-red-500]="isFieldInvalid('nombres')"
+            placeholder="Juan Carlos"
+            formControlName="nombres"
+          />
+          <div *ngIf="isFieldInvalid('nombres')" class="text-red-500 text-xs mt-1">
+            Mínimo 3 caracteres.
+          </div>
+        </div>
+
+        <!-- Apellidos -->
+        <div class="group">
+          <label
+            for="apellidos"
+            class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1"
+            >Apellidos</label
+          >
+          <input
+            type="text"
+            id="apellidos"
+            class="w-full border-b border-gray-300 py-2 text-gray-900 bg-transparent focus:outline-none focus:border-orange-600 transition-colors placeholder-gray-400"
+            [class.border-red-500]="isFieldInvalid('apellidos')"
+            placeholder="Pérez García"
+            formControlName="apellidos"
+          />
+          <div *ngIf="isFieldInvalid('apellidos')" class="text-red-500 text-xs mt-1">
+            Mínimo 3 caracteres.
+          </div>
+        </div>
+
+        <!-- Teléfono -->
+        <div class="group">
+          <label
+            for="telefono"
+            class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1"
+            >Teléfono</label
+          >
+          <input
+            type="tel"
+            id="telefono"
+            class="w-full border-b border-gray-300 py-2 text-gray-900 bg-transparent focus:outline-none focus:border-orange-600 transition-colors placeholder-gray-400"
+            [class.border-red-500]="isFieldInvalid('telefono')"
+            placeholder="987654321"
+            formControlName="telefono"
+          />
+          <div *ngIf="isFieldInvalid('telefono')" class="text-red-500 text-xs mt-1">
+            Debe ser un número de 9 dígitos.
+          </div>
+        </div>
+
+        <!-- Relación -->
+        <div class="group">
+          <label
+            for="relacion"
+            class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1"
+            >Relación con el estudiante</label
+          >
+          <select
+            id="relacion"
+            class="w-full border-b border-gray-300 py-2 text-gray-900 bg-transparent focus:outline-none focus:border-orange-600 transition-colors"
+            [class.border-red-500]="isFieldInvalid('relacion')"
+            formControlName="relacion"
+          >
+            <option value="Padre/Madre">Padre/Madre</option>
+            <option value="Abuelo/Abuela">Abuelo/Abuela</option>
+            <option value="Tío/Tía">Tío/Tía</option>
+            <option value="Tutor Legal">Tutor Legal</option>
+            <option value="Otro">Otro</option>
+          </select>
+        </div>
+
+        <!-- Contraseña -->
+        <div class="group">
+          <label
+            for="password"
+            class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1"
+            >Password</label
+          >
+          <div
+            class="flex items-center border-b border-gray-300 focus-within:border-orange-600 transition-colors"
+            [class.border-red-500]="isFieldInvalid('password')"
+          >
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              id="password"
+              class="w-full py-2 text-gray-900 bg-transparent focus:outline-none placeholder-gray-400"
+              placeholder="********"
+              formControlName="password"
+            />
+            <button
+              type="button"
+              class="text-gray-400 hover:text-blue-600 p-2 focus:outline-none"
+              (click)="togglePassword()"
+            >
+              <!-- Icono simple (Ojo) -->
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="orange"
+                class="bi bi-eye-fill"
+                viewBox="0 0 16 16"
+                *ngIf="!showPassword"
+              >
+                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                <path
+                  d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
+                />
+              </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="orange"
+                class="bi bi-eye-slash-fill"
+                viewBox="0 0 16 16"
+                *ngIf="showPassword"
+              >
+                <path
+                  d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7.029 7.029 0 0 0 2.79-.588zM5.21 3.088A7.028 7.028 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474L5.21 3.089z"
+                />
+                <path
+                  d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12-.708.708z"
+                />
+              </svg>
+            </button>
+          </div>
+          <div *ngIf="isFieldInvalid('password')" class="text-red-500 text-xs mt-1">
+            Mínimo 6 caracteres.
+          </div>
+        </div>
+
+        <!-- Términos -->
+        <div class="flex items-center">
+          <input
+            id="terms"
+            type="checkbox"
+            formControlName="terms"
+            class="w-4 h-4 accent-orange-500 text-white border-gray-300 rounded focus:ring-orange-500"
+          />
+          <label class="ml-2 text-sm text-gray-500" for="terms">
+            Acepto los
+            <a href="#" class="text-orange-600 hover:underline font-medium"
+              >Términos y Condiciones</a
+            >
+          </label>
+        </div>
+
+        <!-- Botones -->
+        <div class="flex flex-col sm:flex-row gap-4 pt-2">
+          <button
+            type="submit"
+            id="btnRegistrar"
+            [disabled]="registroForm.invalid"
+            class="flex-1 bg-orange-400 text-white font-bold py-3 px-4 rounded-lg shadow hover:bg-orange-500 cursor-pointer transition-all"
+          >
+            Inscríbete
+          </button>
+
+          <!-- Botón RouterLink para ir al Login -->
+          <button
+            type="button"
+            routerLink="/login"
+            class="flex-1 border-2 border-orange-400 text-orange-600 cursor-pointer font-bold py-3 px-4 rounded-lg hover:bg-orange-50 transition-all"
+          >
+            Iniciar Sesión
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Sección Derecha: Logo / Imagen -->
+    <!-- Adaptado de 'bg-logo' y 'col-md-6' a Tailwind -->
+    <div class="hidden lg:flex w-1/2 bg-orange-100 items-center justify-center p-12 relative">
+      <!-- Fondo decorativo -->
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-orange-300 to-orange-100 opacity-70"
+      ></div>
+
+      <div class="relative z-10 text-center">
+        <div
+          class="bg-orange-400 p-2 rounded-3xl shadow-lg mb-6 transform rotate-1 hover:rotate-0 transition-transform duration-500"
+        >
+          <!-- Imagen con fallback por si no existe la local -->
+          <img
+            src="assets/img/logo2.jpg"
+            onerror="this.src='https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2022&auto=format&fit=crop'"
+            alt="Logo Pequeños Gigantes"
+            class="rounded-2xl w-full h-auto object-cover max-w-sm"
+          />
+        </div>
+        <h3 class="text-2xl font-bold text-gray-800 font-serif">Pequeños Gigantes</h3>
+      </div>
+    </div>
+  </div>
+</div>

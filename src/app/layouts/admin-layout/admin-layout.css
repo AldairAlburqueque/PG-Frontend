@@ -1,0 +1,27 @@
+/* 1. El contenedor padre que atrapa toda la pantalla */
+.admin-wrapper {
+  display: flex; /* Pone los elementos en fila (lado a lado) */
+  height: 100vh; /* Forza a que ocupe el 100% de la altura de la ventana */
+  overflow: hidden; /* Evita que aparezca doble scrollbar en el cuerpo */
+  width: 100%;
+}
+
+/* 2. El Sidebar (Izquierda) */
+.sidebar-container {
+  /* No necesitamos definir ancho aquí si el componente sidebar ya tiene un ancho fijo.
+     Pero por seguridad, evitamos que se encoja: */
+  flex-shrink: 0;
+  height: 100%;
+  background-color: white; /* O el color que use tu sidebar */
+  border-right: 1px solid #e5e7eb; /* Una línea sutil divisoria */
+  z-index: 10; /* Para que su sombra quede por encima del contenido */
+}
+
+/* 3. El Contenido Principal (Derecha) */
+.main-content {
+  flex: 1; /* "Toma todo el espacio sobrante" */
+  background-color: #f3f4f6; /* El color de fondo gris claro para el dashboard */
+  overflow-y: auto; /* Habilita SCROLL solo dentro de esta zona */
+  padding: 0; /* El padding lo maneja el dashboard internamente */
+  position: relative;
+}

@@ -1,0 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+/* You can add global styles to this file, and also import other style files */
+@import 'tailwindcss';
+@import 'swiper/css';
+@import 'swiper/css/pagination';
+@import 'swiper/css/navigation';
+
+/* 2. Estilos Globales usando CSS estándar */
+html {
+  scroll-behavior: smooth; /* Scroll suave nativo para toda la web */
+}
+
+/* Personalizar el color de los puntitos y flechas de Swiper */
+:root {
+  /* Tamaño de las flechas */
+  --swiper-navigation-size: 20px;
+  --swiper-theme-color: #f97316 !important; /* Tu naranja (orange-500) */
+  --swiper-navigation-color: #f97316 !important;
+  --swiper-pagination-color: #f97316 !important;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 25px !important; /* Tamaño del icono */
+  color: #ff6600 !important; /* Color NARANJA FORZADO */
+  font-weight: bold;
+}
+
+body {
+  background-color: #f0dfc8;
+  font-family: 'Inter', sans-serif;
+  font-size: 20px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Pacifico', cursive;
+  color: orange;
+}
+
+/* 3. Clases personalizadas reutilizables (Opcional) */
+.btn-primary {
+  padding-left: 1rem; /* px-4 */
+  padding-right: 1rem;
+  padding-top: 0.5rem; /* py-2 */
+  padding-bottom: 0.5rem;
+  background-color: #f97316; /* bg-orange-500 */
+  color: #fff; /* text-white */
+  border-radius: 0.375rem; /* rounded */
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-duration: 150ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-primary:hover {
+  background-color: #ea580c; /* hover:bg-orange-600 */
+}
+
+/* 1. Hacemos que el contenedor ocupe EXACTAMENTE el 100% de la ventana */
+.contenedor-principal {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* 100% del Viewport Height */
+  overflow: hidden; /* Evita scrolls dobles innecesarios */
+}
+
+/* 2. El contenido central (Login) ocupará todo el espacio sobrante */
+.contenido-central {
+  flex: 1;
+  display: flex; /* Para poder centrar lo de adentro si es necesario */
+  flex-direction: column;
+  overflow-y: auto; /* Si el contenido interno es muy largo, solo scrollea esta parte */
+}
+
+/* Contenedor principal que ocupa toda la pantalla */
+.login-wrapper {
+  /* Quitamos la altura forzada, dejamos que se adapte al padre (.contenido-central) */
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0dfc8;
+  padding: 30px;
+  box-sizing: border-box; /* Importante para que el padding no sume ancho */
+}
+
+/* La tarjeta blanca central */
+.login-card {
+  background-color: #ffffff;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  width: 100%;
+  max-width: 400px; /* Que no se haga muy ancha en pantallas grandes */
+  text-align: center;
+}
+
+/* Encabezado de la tarjeta */
+.login-header h2 {
+  margin: 0 0 10px 0;
+  color: #333;
+  font-size: 1.8rem;
+}
+
+.login-header p {
+  margin: 0 0 30px 0;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+/* Grupos de inputs */
+.input-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #444;
+  font-size: 0.9rem;
+}
+
+/* Estilo de los campos de texto */
+.input-group input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  box-sizing: border-box; /* Importante para que el padding no afecte el ancho */
+}
+
+/* Efecto al hacer clic en un input */
+.input-group input:focus {
+  outline: none;
+  border-color: #ff8800; /* Color azul al seleccionar */
+  box-shadow: 0 0 0 3px rgba(255, 153, 0, 0.1);
+}
+
+/* Botón de ingresar */
+.btn-login {
+  width: 100%;
+  padding: 14px;
+  background-color: #ff7300; /* Azul principal */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-login:hover {
+  background-color: #b33900; /* Azul más oscuro al pasar el mouse */
+}
+
+/* Pie de la tarjeta con enlaces */
+.login-footer {
+  margin-top: 25px;
+  font-size: 0.9rem;
+  color: #888;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.login-footer a {
+  color: #ff7300;
+  text-decoration: none;
+}
+
+.login-footer a:hover {
+  text-decoration: underline;
+}

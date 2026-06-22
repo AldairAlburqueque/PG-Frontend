@@ -1,0 +1,170 @@
+<div class="page-content">
+  <div class="page-header">
+    <div>
+      <h1>Gestión Docentes</h1>
+      <p class="text-muted">Total registrados: {{docentes.length}}</p>
+    </div>
+    <button class="btn-new" (click)="limpiar(); abrirModal();">
+      <span>+</span> Nuevo Docente
+    </button>
+  </div>
+
+  <div class="search-bar" style="margin-bottom: 20px;">
+    <input type="text" placeholder="Buscar por nombre.."
+          [(ngModel)]="filtro"
+           style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;"
+           />
+  </div>
+
+  <div class="table-container">
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th>Nombre</th> 
+          <th>Apellidos</th>
+          <th>Correo</th>
+          <th>DNI</th>
+          <th>Telefono</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (docente of docenteFiltrados; track docente.id) {
+          <tr>
+            <td>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <div
+                  style="
+                    width: 35px;
+                    height: 35px;
+                    background: #e0e7ff;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  +
+                </div>
+                <strong>{{ docente.nombre }}</strong>
+              </div>
+            </td>
+
+            <td>{{ docente.apellidos }}</td>
+            <td>{{ docente.email }}</td>
+            <td>{{ docente.dni }}</td>
+            <td>{{ docente.telefono }}</td>
+            <td>
+              @if (docente.activo) {
+                <span class="badge success">Activo</span>
+              } @else {
+                <span class="badge danger">Inactivo</span>
+              }
+            </td>
+
+            <td>
+              <button
+                class="action-btn edit"
+                title="Editar"
+                (click)="editar(docente); abrirModal()"
+              >
+                ✏️
+              </button>
+
+              <button
+                class="action-btn delete"
+                title="Eliminar"
+                (click)="eliminar(docente.id!)"
+              >
+                🚫
+              </button>
+            </td>
+          </tr>
+        }
+
+        @if (docenteFiltrados.length === 0) {
+          <tr>
+            <td colspan="5" style="text-align: center; padding: 20px;">
+              No hay docentes registrados
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- MODAL -->
+@if (mostrarModal) {
+
+  <!-- OVERLAY -->
+  <div class="modal-overlay" (click)="cerrarModal()">
+
+    <!-- CONTENEDOR MODAL -->
+    <div class="modal-container" (click)="$event.stopPropagation()">
+
+      <!-- HEADER -->
+      <div class="modal-header">
+        <h2>{{ esEdicion ? 'Editar Docente' : 'Registrar Docente' }}</h2>
+        <button class="close-btn" (click)="cerrarModal()">✖</button>
+      </div>
+
+      <!-- BODY -->
+      <div class="modal-body">
+
+        <input
+          type="text"
+          placeholder="Nombre completo"
+          [(ngModel)]="docenteForm.nombre"
+        />
+        <input
+          type="text"
+          placeholder="Apellidos"
+          [(ngModel)]="docenteForm.apellidos"
+        />
+        <input
+          type="text"
+          placeholder="Correo"
+          [(ngModel)]="docenteForm.email"
+        />
+        <input
+          type="text"
+          placeholder="DNI"
+          [(ngModel)]="docenteForm.dni"
+        />
+        <input
+          type="text"
+          placeholder="Telefono"
+          [(ngModel)]="docenteForm.telefono"
+        />
+        <div class="radio-inline">
+            <label>
+            <input type="radio"
+                    name="activo"
+                    [(ngModel)]="docenteForm.activo"
+                    [value]="true">
+            Activo
+            </label>
+
+            <label>
+            <input type="radio"
+                    name="activo"
+                    [(ngModel)]="docenteForm.activo"
+                    [value]="false">
+            Inactivo
+            </label>
+        </div>
+
+      </div>
+
+      <!-- FOOTER -->
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="cerrarModal()">Cancelar</button>
+        <button class="btn-save" (click)="guardar()">Guardar</button>
+      </div>
+
+    </div>
+  </div>
+}

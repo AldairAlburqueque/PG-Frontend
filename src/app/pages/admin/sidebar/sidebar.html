@@ -1,0 +1,39 @@
+<div class="sidebar-menu">
+  <h2>PEQUEÑOS GIGANTES S.A.</h2>
+  <hr />
+  <h3>Admin Panel</h3>
+  <ul>
+    <li>
+      <a routerLink="/admin/ninos" routerLinkActive="active"><span class="icon">👶</span>Alumnos</a>
+    </li>
+    <li>
+      <a routerLink="/admin/docentes" routerLinkActive="active"
+        ><span class="icon">👨‍🏫</span>Docentes</a
+      >
+    </li>
+
+    <li>
+      <a routerLink="/admin/aulas" routerLinkActive="active"><span class="icon">🏫</span>Salones</a>
+    </li>
+    <li>
+      <a routerLink="/admin/apoderados" routerLinkActive="active"
+        ><span class="icon">👨‍👩‍👦</span>Apoderados</a
+      >
+    </li>
+
+    <li>
+      <a routerLink="/admin/solicitudes" routerLinkActive="active"
+        ><span class="icon">📩</span>Solicitudes</a
+      >
+    </li>
+
+    <li>
+      <a routerLink="/admin/usuarios" routerLinkActive="active"
+        ><span class="icon">👥</span>Usuarios</a
+      >
+    </li>
+    <li>
+      <a href="#" (click)="logout($event)"><span class="icon">🚪</span>Cerrar Sesión</a>
+    </li>
+  </ul>
+</div>

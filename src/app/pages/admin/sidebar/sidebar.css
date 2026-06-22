@@ -1,0 +1,38 @@
+:host {
+  width: 260px; /* O el ancho que prefieras */
+  display: block;
+}
+
+.sidebar-menu {
+  background-color: rgb(12, 49, 87); /* Color oscuro típico de admin */
+  color: white;
+  height: 100vh; /* Ocupa toda la altura de la pantalla */
+  width: 250px;
+  padding: 25px;
+  position: fixed; /* Se queda fijo a la izquierda */
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+li {
+  margin: 15px 0;
+}
+a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+a:hover {
+  color: #db9334;
+  text-decoration: underline;
+}
+
+.sidebar-menu a.active {
+  background-color: #e0e7ff; /* Un fondo azul claro */
+  color: #3730a3; /* Texto azul oscuro */
+  font-weight: bold;
+  border-right: 3px solid #3730a3; /* Una línea indicadora a la derecha */
+}

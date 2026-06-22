@@ -1,0 +1,185 @@
+<div class="page-content">
+  <div class="page-header">
+    <div>
+      <h1>Gestión de Usuarios</h1>
+      <p class="text-muted">Total usuarios: {{ usuarios.length }}</p>
+    </div>
+    <button class="btn-new" (click)="abrirModalNuevo()">
+      <span>+</span> Nuevo Usuario Admin
+    </button>
+  </div>
+
+  <div class="table-container">
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>Rol</th>
+          <th>Apoderado Asociado</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let usuario of usuarios">
+          <td>{{ usuario.email }}</td>
+          <td>
+            <span
+              class="badge"
+              [ngClass]="{
+                'badge-admin': usuario.rol === 'ADMIN',
+                'badge-apoderado': usuario.rol === 'APODERADO'
+              }"
+            >
+              {{ usuario.rol }}
+            </span>
+          </td>
+          <td>{{ usuario.nombreApoderado || 'N/A' }}</td>
+          <td>
+            <span
+              class="badge"
+              [ngClass]="{
+                'badge-activo': usuario.activo,
+                'badge-inactivo': !usuario.activo
+              }"
+            >
+              {{ usuario.activo ? 'Activo' : 'Inactivo' }}
+            </span>
+          </td>
+          <td>
+            <div class="action-buttons">
+              <button
+                class="action-btn edit"
+                (click)="abrirModalEditar(usuario)"
+                title="Editar"
+              >
+                ✏️
+              </button>
+              <button
+                class="action-btn"
+                [ngClass]="usuario.activo ? 'delete' : 'edit'"
+                (click)="cambiarEstado(usuario)"
+                [title]="usuario.activo ? 'Desactivar' : 'Activar'"
+              >
+                {{ usuario.activo ? '🔒' : '🔓' }}
+              </button>
+              <button
+                class="action-btn delete"
+                (click)="eliminar(usuario.email)"
+                title="Eliminar"
+              >
+                🗑️
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="usuarios.length === 0">
+          <td colspan="5" style="text-align: center; padding: 40px">
+            No hay usuarios registrados
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal para Crear/Editar Usuario -->
+<div class="modal-overlay" *ngIf="mostrarModal" (click)="cerrarModal()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>{{ modoEdicion ? 'Editar Usuario' : 'Registrar Usuario ADMIN' }}</h2>
+      <button class="close-btn" (click)="cerrarModal()">✖</button>
+    </div>
+
+    <div class="modal-body">
+      <form [formGroup]="usuarioForm" (ngSubmit)="guardar()">
+        <div class="form-group">
+          <label>Email <span class="required">*</span></label>
+          <input
+            type="email"
+            formControlName="email"
+            placeholder="correo@ejemplo.com"
+            [class.error]="
+              usuarioForm.get('email')?.invalid &&
+              usuarioForm.get('email')?.touched
+            "
+          />
+          <small
+            class="error-message"
+            *ngIf="
+              usuarioForm.get('email')?.hasError('required') &&
+              usuarioForm.get('email')?.touched
+            "
+          >
+            El email es obligatorio
+          </small>
+          <small
+            class="error-message"
+            *ngIf="
+              usuarioForm.get('email')?.hasError('email') &&
+              usuarioForm.get('email')?.touched
+            "
+          >
+            Ingresa un email válido
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label>
+            Contraseña
+            <span class="required" *ngIf="!modoEdicion">*</span>
+            <span class="text-muted" *ngIf="modoEdicion">
+              (dejar vacío para mantener la actual)
+            </span>
+          </label>
+          <input
+            type="password"
+            formControlName="contraseña"
+            placeholder="••••••••"
+            [class.error]="
+              usuarioForm.get('contraseña')?.invalid &&
+              usuarioForm.get('contraseña')?.touched
+            "
+          />
+          <small
+            class="error-message"
+            *ngIf="
+              usuarioForm.get('contraseña')?.hasError('minlength') &&
+              usuarioForm.get('contraseña')?.touched
+            "
+          >
+            Mínimo 6 caracteres
+          </small>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Rol <span class="required">*</span></label>
+            <select formControlName="rol">
+              <option value="ADMIN">ADMIN</option>
+              <option value="APODERADO" disabled>
+                APODERADO (solo desde registro público)
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input type="checkbox" formControlName="activo" />
+              Usuario activo
+            </label>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-cancel" (click)="cerrarModal()">
+            Cancelar
+          </button>
+          <button type="submit" class="btn-save">
+            {{ modoEdicion ? 'Actualizar' : 'Crear' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

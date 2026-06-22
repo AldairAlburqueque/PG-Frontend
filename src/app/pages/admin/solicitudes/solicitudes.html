@@ -1,0 +1,231 @@
+<div class="page-content">
+  <div class="page-header">
+    <div>
+      <h1>Gestión de Solicitudes de Matrícula</h1>
+      <p class="text-muted">Total registradas: {{solicitudes.length}}</p>
+    </div>
+    <button class="btn-new" (click)="limpiar(); abrirModal();">
+      <span>+</span> Nueva Solicitud
+    </button>
+  </div>
+
+  <div class="search-bar" style="margin-bottom: 20px;">
+    <input type="text" placeholder="Buscar por alumno, apoderado o aula..." [(ngModel)]="filtro"
+      style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;" />
+  </div>
+
+  <div class="table-container">
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Alumno</th>
+          <th>Apoderado</th>
+          <th>Aula</th>
+          <th>Año</th>
+          <th>Periodo</th>
+          <th>Fecha Solicitud</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (solicitud of solicitudesFiltradas; track solicitud.id) {
+        <tr>
+          <td>
+            <strong>#{{ solicitud.id }}</strong>
+          </td>
+          <td>{{ solicitud.nombreAlumno }}</td>
+          <td>{{ solicitud.nombreApoderado }}</td>
+          <td>{{ solicitud.nombreAula }}</td>
+          <td>{{ solicitud.anio }}</td>
+          <td>{{ solicitud.periodo }}</td>
+          <td>{{ solicitud.fechaSolicitud }}</td>
+          <td>
+            @if (solicitud.activo) {
+            <span class="badge success">Activo</span>
+            } @else {
+            <span class="badge danger">Inactivo</span>
+            }
+          </td>
+
+          <td>
+            <button class="action-btn edit" title="Editar" (click)="editar(solicitud); abrirModal()">
+              ✏️
+            </button>
+
+            <button class="action-btn delete" title="Eliminar" (click)="eliminar(solicitud.id!)">
+              🚫
+            </button>
+          </td>
+        </tr>
+        }
+
+        @if (solicitudesFiltradas.length === 0) {
+        <tr>
+          <td colspan="9" style="text-align: center; padding: 20px;">
+            No hay solicitudes registradas
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- MODAL -->
+@if (mostrarModal) {
+
+<!-- OVERLAY -->
+<div class="modal-overlay" (click)="cerrarModal()">
+
+  <!-- CONTENEDOR MODAL -->
+  <div class="modal-container" (click)="$event.stopPropagation()">
+
+    <!-- HEADER -->
+    <div class="modal-header">
+      <h2>{{ esEdicion ? 'Editar Solicitud' : 'Registrar Solicitud' }}</h2>
+      <button class="close-btn" (click)="cerrarModal()">✖</button>
+    </div>
+
+    <!-- BODY -->
+    <div class="modal-body">
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Año</label>
+          <input type="number" placeholder="Año" [(ngModel)]="solicitudForm.anio" min="2020" max="2030" />
+        </div>
+
+        <div class="form-group">
+          <label>Periodo</label>
+          <input type="number" placeholder="Periodo" [(ngModel)]="solicitudForm.periodo" min="1" max="2" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Fecha de Solicitud</label>
+        <input type="date" [(ngModel)]="solicitudForm.fechaSolicitud" />
+      </div>
+
+      <div class="form-group">
+        <label>Alumno</label>
+        <select [(ngModel)]="modoAlumno" (ngModelChange)="onModoAlumnoChange()">
+          <option value="existente">Seleccionar existente</option>
+          <option value="nuevo">Crear nuevo alumno</option>
+        </select>
+      </div>
+
+      @if (modoAlumno === 'existente') {
+      <div class="form-group">
+        <select [(ngModel)]="solicitudForm.alumno.id">
+          <option [value]="null">-- Seleccione un alumno --</option>
+          @for (alumno of alumnos; track alumno.id) {
+          <option [value]="alumno.id">{{ alumno.nombreCompleto }}</option>
+          }
+        </select>
+      </div>
+      } @else {
+      <div class="form-group">
+        <label>Nombre completo del alumno</label>
+        <input type="text" placeholder="Nombre completo" [(ngModel)]="nuevoAlumno.nombreCompleto" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Sexo</label>
+          <select [(ngModel)]="nuevoAlumno.sexo">
+            <option value="M">Masculino</option>
+            <option value="F">Femenino</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Edad</label>
+          <input type="number" [(ngModel)]="nuevoAlumno.edad" min="3" max="18" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Condición</label>
+        <select [(ngModel)]="nuevoAlumno.condicion">
+          <option value="Nuevo">Nuevo</option>
+          <option value="Continuidad">Continuidad</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Observación</label>
+        <textarea [(ngModel)]="nuevoAlumno.observacion" rows="2"></textarea>
+      </div>
+      }
+
+      <div class="form-group">
+        <label>Aula</label>
+        <select [(ngModel)]="solicitudForm.aula.id">
+          <option [value]="null">Seleccione un aula</option>
+          @for (aula of aulas; track aula.id) {
+          <option [value]="aula.id">{{ aula.nombre }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Apoderado</label>
+        <select [(ngModel)]="modoApoderado" (ngModelChange)="onModoApoderadoChange()">
+          <option value="existente">Seleccionar existente</option>
+          <option value="nuevo">Crear nuevo apoderado</option>
+        </select>
+      </div>
+
+      @if (modoApoderado === 'existente') {
+      <div class="form-group">
+        <select [(ngModel)]="solicitudForm.apoderado.id">
+          <option [value]="null">-- Seleccione un apoderado --</option>
+          @for (apoderado of apoderados; track apoderado.id) {
+          <option [value]="apoderado.id">{{ apoderado.nombres }} {{ apoderado.apellidos }}</option>
+          }
+        </select>
+      </div>
+      } @else {
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombres</label>
+          <input type="text" placeholder="Nombres" [(ngModel)]="nuevoApoderado.nombres" />
+        </div>
+        <div class="form-group">
+          <label>Apellidos</label>
+          <input type="text" placeholder="Apellidos" [(ngModel)]="nuevoApoderado.apellidos" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Relación</label>
+          <input type="text" placeholder="Ej: Madre, Padre, Tío..." [(ngModel)]="nuevoApoderado.relacion" />
+        </div>
+        <div class="form-group">
+          <label>Teléfono</label>
+          <input type="text" placeholder="Teléfono" [(ngModel)]="nuevoApoderado.telefono" />
+        </div>
+      </div>
+      }
+
+      <div class="radio-inline">
+        <label>
+          <input type="radio" name="activo" [(ngModel)]="solicitudForm.activo" [value]="true">
+          Activo
+        </label>
+
+        <label>
+          <input type="radio" name="activo" [(ngModel)]="solicitudForm.activo" [value]="false">
+          Inactivo
+        </label>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="cerrarModal()">Cancelar</button>
+      <button class="btn-save" (click)="guardar()">Guardar</button>
+    </div>
+
+  </div>
+</div>
+}

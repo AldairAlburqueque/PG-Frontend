@@ -1,0 +1,132 @@
+/* 1. El Fondo Oscuro (Overlay) */
+.ad-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo negro semitransparente */
+  display: flex;
+  justify-content: center; /* Centrar horizontalmente */
+  align-items: center; /* Centrar verticalmente */
+  z-index: 9999; /* Asegura que esté encima del Header/Footer */
+  backdrop-filter: blur(5px); /* Efecto borroso elegante en el fondo */
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* 2. La Caja del Anuncio (Modal) */
+.ad-modal {
+  background: white;
+  width: 90%;
+  max-width: 600px;
+  border-radius: 15px;
+  position: relative; /* Para posicionar la X */
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  animation: slideUp 0.4s ease-out;
+}
+
+/* 3. Contenido Interno */
+.ad-content {
+  display: flex;
+  flex-direction: row; /* Imagen a la izquierda, texto a la derecha */
+}
+
+/* Imagen lateral */
+.ad-image {
+  background: #4f46e5; /* Color de fondo o tu imagen */
+  width: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+/* Texto lateral */
+.ad-text {
+  padding: 30px;
+  width: 60%;
+  text-align: left;
+}
+
+.ad-text h3 {
+  margin-top: 0;
+  color: #111827;
+  font-size: 1.5rem;
+}
+.ad-text p {
+  color: #6b7280;
+  line-height: 1.5;
+}
+.promo {
+  color: #e11d48;
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  margin: 15px 0;
+}
+
+/* Botón de Acción */
+.btn-action {
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.2s;
+}
+.btn-action:hover {
+  background-color: #4338ca;
+}
+
+/* Botón de Cerrar (X) */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: #9ca3af;
+  cursor: pointer;
+}
+.close-btn:hover {
+  color: #111827;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Responsivo para celulares (Columna en vez de Fila) */
+@media (max-width: 600px) {
+  .ad-content {
+    flex-direction: column;
+  }
+  .ad-image {
+    width: 100%;
+    height: 150px;
+  }
+  .ad-text {
+    width: 100%;
+  }
+}

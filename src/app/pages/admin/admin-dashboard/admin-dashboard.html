@@ -1,0 +1,75 @@
+<div class="dashboard-wrapper">
+  <header class="page-header">
+    <div class="header-content">
+      <h1>Hola, Administrador 👋</h1>
+      <p>Aquí tienes el resumen de hoy, 15 de Diciembre.</p>
+    </div>
+    <button class="btn-action"><span>📥</span> Descargar Reporte</button>
+  </header>
+
+  <section class="kpi-grid">
+    <div class="kpi-card" *ngFor="let kpi of kpis">
+      <div class="kpi-content">
+        <span class="kpi-title">{{ kpi.titulo }}</span>
+        <h2 class="kpi-value">{{ kpi.valor }}</h2>
+
+        <div class="kpi-trend" [ngClass]="{ 'trend-up': kpi.subida, 'trend-down': !kpi.subida }">
+          <span>{{ kpi.subida ? '↗' : '↘' }}</span>
+          <span>{{ kpi.tendencia }}</span>
+          <span class="trend-text">vs mes anterior</span>
+        </div>
+      </div>
+      <div class="kpi-icon-container" [ngClass]="kpi.color">
+        <span *ngIf="kpi.titulo.includes('Alumnos')">👥</span>
+        <span *ngIf="kpi.titulo.includes('Matrículas')">📝</span>
+        <span *ngIf="kpi.titulo.includes('Ingresos')">💰</span>
+        <span *ngIf="kpi.titulo.includes('Pendientes')">⏳</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="main-section">
+    <div class="card table-card">
+      <div class="card-header">
+        <h3>Matrículas Recientes</h3>
+        <a href="#" class="link-view-all">Ver todas</a>
+      </div>
+
+      <div class="table-responsive">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Alumno</th>
+              <th>Nivel / Grado</th>
+              <th>Fecha Registro</th>
+              <th>Estado</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let m of ultimasMatriculas">
+              <td class="text-muted">{{ m.id }}</td>
+              <td>
+                <div class="user-cell">
+                  <div class="avatar-placeholder">{{ m.alumno.charAt(0) }}</div>
+                  <span class="user-name">{{ m.alumno }}</span>
+                </div>
+              </td>
+              <td>{{ m.nivel }} - {{ m.grado }}</td>
+              <td>{{ m.fecha }}</td>
+              <td>
+                <span class="status-pill" [ngClass]="getStatusClass(m.estado)">
+                  {{ m.estado }}
+                </span>
+              </td>
+              <td>
+                <button class="btn-icon">⋮</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,21 @@
+<div class="ad-overlay" *ngIf="isVisible">
+  <div class="ad-modal">
+    <button class="close-btn" (click)="cerrar()">✕</button>
+
+    <div class="ad-content">
+      <div class="ad-image">
+        <img src="img/logo.png" alt="School admissions logo" />
+      </div>
+
+      <div class="ad-text">
+        <h3>¡Admisión 2026!</h3>
+        <p>Asegura el futuro de tus hijos.</p>
+        <p class="promo">50% dcto. matrícula.</p>
+
+        <button class="btn-action" routerLink="/matricula" (click)="cerrar()">
+          Reservar Vacante
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

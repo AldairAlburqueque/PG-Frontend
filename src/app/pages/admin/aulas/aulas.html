@@ -1,0 +1,152 @@
+<div class="page-content">
+  <div class="page-header">
+    <div>
+      <h1>Gestión de Aulas</h1>
+      <p class="text-muted">Total registrados: {{aulas.length}}</p>
+    </div>
+    <button class="btn-new" (click)="limpiar(); abrirModal();">
+      <span>+</span> Nueva Aula
+    </button>
+  </div>
+
+  <div class="search-bar" style="margin-bottom: 20px;">
+    <input type="text" placeholder="Buscar por nombre.."
+          [(ngModel)]="filtro"
+           style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;"
+           />
+  </div>
+
+  <div class="table-container">
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th>Nombre</th> 
+          <th>Docente</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (aula of aulasFiltradas; track aula.id) {
+          <tr>
+            <td>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <div
+                  style="
+                    width: 35px;
+                    height: 35px;
+                    background: #e0e7ff;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                    color: #3730a3;
+                  "
+                >
+                  📚
+                </div>
+                <strong>{{ aula.nombre }}</strong>
+              </div>
+            </td>
+
+            <td>{{ aula.docente ? aula.docente.nombre + ' ' + aula.docente.apellidos : 'Sin asignar' }}</td>
+            <td>
+              @if (aula.activo) {
+                <span class="badge success">Activo</span>
+              } @else {
+                <span class="badge danger">Inactivo</span>
+              }
+            </td>
+
+            <td>
+              <button
+                class="action-btn edit"
+                title="Editar"
+                (click)="editar(aula); abrirModal()"
+              >
+                ✏️
+              </button>
+
+              <button
+                class="action-btn delete"
+                title="Eliminar"
+                (click)="eliminar(aula.id)"
+              >
+                🚫
+              </button>
+            </td>
+          </tr>
+        }
+
+        @if (aulasFiltradas.length === 0) {
+          <tr>
+            <td colspan="4" style="text-align: center; padding: 20px;">
+              No hay aulas registradas
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- MODAL -->
+@if (mostrarModal) {
+
+  <!-- OVERLAY -->
+  <div class="modal-overlay" (click)="cerrarModal()">
+
+    <!-- CONTENEDOR MODAL -->
+    <div class="modal-container" (click)="$event.stopPropagation()">
+
+      <!-- HEADER -->
+      <div class="modal-header">
+        <h2>{{ esEdicion ? 'Editar Aula' : 'Registrar Nueva Aula' }}</h2>
+        <button class="close-btn" (click)="cerrarModal()">✖</button>
+      </div>
+
+      <!-- BODY -->
+      <div class="modal-body">
+
+        <input
+          type="text"
+          placeholder="Nombre del aula"
+          [(ngModel)]="aulaForm.nombre"
+        />
+        <select [(ngModel)]="aulaForm.docente" [compareWith]="compararDocentes" style="padding: 8px; border-radius: 6px; border: 1px solid #ccc; font-family: inherit; color: #999;" [style.color]="aulaForm.docente ? '#000' : '#999'">
+          <option [ngValue]="null" style="color: #000;">Selecciona un docente</option>
+          @for (docente of docentes; track docente.id) {
+            <option [ngValue]="docente" style="color: #000;">{{ docente.nombre }} {{ docente.apellidos }}</option>
+          }
+        </select>
+        <div class="radio-inline">
+            <label>
+            <input type="radio"
+                    name="activo"
+                    [(ngModel)]="aulaForm.activo"
+                    [value]="true">
+            Activo
+            </label>
+            <label>
+            <input type="radio"
+                    name="activo"
+                    [(ngModel)]="aulaForm.activo"
+                    [value]="false">
+            Inactivo
+            </label>
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="cerrarModal()">Cancelar</button>
+        <button class="btn-save" (click)="guardar()">
+          {{ esEdicion ? 'Actualizar' : 'Crear' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}
+

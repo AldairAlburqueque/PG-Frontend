@@ -1,0 +1,238 @@
+/* --- CONFIGURACIÓN GENERAL --- */
+.dashboard-wrapper {
+  padding: 2rem;
+  background-color: #f3f4f6; /* Gris muy suave para contraste con sidebar */
+  min-height: 100vh;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: #1f2937;
+}
+
+/* --- HEADER --- */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.page-header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+.page-header p {
+  color: #6b7280;
+  margin: 0.25rem 0 0;
+}
+
+.btn-action {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.btn-action:hover {
+  background-color: #f9fafb;
+  border-color: #d1d5db;
+}
+
+/* --- KPI GRID --- */
+.kpi-grid {
+  display: grid;
+  /* Esto crea columnas automáticas que no se rompen si el sidebar quita espacio */
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.kpi-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 1rem; /* Bordes modernos */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  transition: transform 0.2s;
+}
+
+.kpi-card:hover {
+  transform: translateY(-3px);
+} /* Pequeña animación al pasar mouse */
+
+.kpi-title {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+.kpi-value {
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin: 0.5rem 0;
+  color: #111827;
+}
+
+.kpi-trend {
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.trend-up {
+  color: #10b981;
+}
+.trend-down {
+  color: #ef4444;
+}
+.trend-text {
+  color: #9ca3af;
+  margin-left: 4px;
+}
+
+.kpi-icon-container {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+/* Colores de fondo suaves para iconos */
+.bg-blue {
+  background-color: #eff6ff;
+  color: #3b82f6;
+}
+.bg-green {
+  background-color: #f0fdf4;
+  color: #22c55e;
+}
+.bg-purple {
+  background-color: #faf5ff;
+  color: #a855f7;
+}
+.bg-orange {
+  background-color: #fff7ed;
+  color: #f97316;
+}
+
+/* --- TABLA --- */
+.table-card {
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  overflow: hidden; /* Para que las esquinas de la tabla no se salgan */
+}
+
+.card-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #f3f4f6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.link-view-all {
+  color: #3b82f6;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.custom-table th,
+.custom-table td {
+  padding: 1rem 1.5rem;
+  text-align: left;
+}
+.custom-table th {
+  background-color: #f9fafb;
+  font-weight: 500;
+  color: #6b7280;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.custom-table tr {
+  border-bottom: 1px solid #f3f4f6;
+}
+.custom-table tr:last-child {
+  border-bottom: none;
+}
+.custom-table tr:hover {
+  background-color: #f9fafb;
+}
+
+/* Avatar y Usuario */
+.user-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.avatar-placeholder {
+  width: 32px;
+  height: 32px;
+  background-color: #e5e7eb;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #4b5563;
+  font-size: 0.8rem;
+}
+.user-name {
+  font-weight: 500;
+  color: #111827;
+}
+
+/* Status Pills */
+.status-pill {
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.status-success {
+  background-color: #def7ec;
+  color: #03543f;
+}
+.status-warning {
+  background-color: #fdf6b2;
+  color: #723b13;
+}
+.status-danger {
+  background-color: #fde8e8;
+  color: #9b1c1c;
+}
+
+.text-muted {
+  color: #9ca3af;
+  font-size: 0.85rem;
+}
+.btn-icon {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #9ca3af;
+}
+.btn-icon:hover {
+  color: #111827;
+}

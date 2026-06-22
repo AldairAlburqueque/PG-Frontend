@@ -1,0 +1,205 @@
+<div class="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl overflow-hidden max-w-5xl w-full flex flex-col md:flex-row">
+    <div class="w-full md:w-3/5 p-8 md:p-10 order-2 md:order-1">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-3xl font-bold text-gray-800" style="font-family: 'Pacifico', cursive">
+          Solicitud de Matrícula
+        </h2>
+        <a routerLink="/" class="text-sm text-gray-500 hover:text-orange-500 transition-colors flex items-center gap-1">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Volver
+        </a>
+      </div>
+
+      <form [formGroup]="matriculaForm" (ngSubmit)="enviarSolicitud()" class="space-y-6">
+        <div>
+          <h6 class="text-xs font-bold text-orange-500 uppercase tracking-wider mb-3 border-b pb-1">
+            Datos del Apoderado
+          </h6>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Nombres</label>
+              <input formControlName="nombresApoderado" type="text"
+                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 outline-none transition-all"
+                [class.border-red-500]="esInvalido('nombresApoderado')"
+                [class.border-gray-300]="!esInvalido('nombresApoderado')" placeholder="Ej. Carlos" />
+              <p *ngIf="esInvalido('nombresApoderado')" class="text-red-500 text-xs mt-1">
+                El nombre es obligatorio.
+              </p>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Apellidos</label>
+              <input formControlName="apellidosApoderado" type="text"
+                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 outline-none transition-all"
+                [class.border-red-500]="esInvalido('apellidosApoderado')"
+                [class.border-gray-300]="!esInvalido('apellidosApoderado')" placeholder="Ej. Ramírez Torres" />
+              <p *ngIf="esInvalido('apellidosApoderado')" class="text-red-500 text-xs mt-1">
+                Los apellidos son obligatorios.
+              </p>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
+              <input formControlName="telefonoApoderado" type="text" maxlength="9"
+                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 outline-none transition-all"
+                [class.border-red-500]="esInvalido('telefonoApoderado')" placeholder="Ej. 987654321" />
+              <p *ngIf="esInvalido('telefonoApoderado')" class="text-red-500 text-xs mt-1">
+                Teléfono inválido (9 dígitos).
+              </p>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">DNI</label>
+              <input formControlName="dniApoderado" type="text" maxlength="8"
+                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 outline-none transition-all"
+                [class.border-red-500]="esInvalido('dniApoderado')" placeholder="Ej. 75648213" />
+              <p *ngIf="esInvalido('dniApoderado')" class="text-red-500 text-xs mt-1">
+                DNI inválido (8 dígitos).
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h6 class="text-xs font-bold text-orange-500 uppercase tracking-wider mb-3 border-b pb-1 mt-2">
+            Datos del Estudiante
+          </h6>
+
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Nombres Completos</label>
+              <input formControlName="nombresEstudiante" type="text"
+                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 outline-none transition-all"
+                [class.border-red-500]="esInvalido('nombresEstudiante')" placeholder="Ej. María Ramírez López" />
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Sexo</label>
+                <select formControlName="sexoEstudiante"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 outline-none bg-white">
+                  <option value="" disabled>Seleccione</option>
+                  <option value="M">Masculino</option>
+                  <option value="F">Femenino</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Edad</label>
+                <input formControlName="edadEstudiante" type="number" min="3" max="18"
+                  class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 outline-none"
+                  [class.border-red-500]="esInvalido('edadEstudiante')" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Aula</label>
+                <select formControlName="aulaId"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 outline-none bg-white">
+                  <option value="" disabled>Seleccione un aula</option>
+                  <option value="1">Cuna A</option>
+                  <option value="2">Cuna B</option>
+                  <option value="3">Pre-Kínder A</option>
+                  <option value="4">Pre-Kínder B</option>
+                  <option value="5">Kínder A</option>
+                  <option value="6">Kínder B</option>
+                  <option value="7">Inicial 4 años A</option>
+                  <option value="8">Inicial 4 años B</option>
+                  <option value="9">Inicial 5 años A</option>
+                  <option value="10">Inicial 5 años B</option>
+                  <!-- @for (aula of listAulas; track aula.id) {
+                  <option [value]="aula.id">{{ aula.nombre }}</option>
+                  } -->
+                </select>
+              </div>
+
+              <!-- <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Aula</label>
+                <select formControlName="aulaId"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 outline-none bg-white"
+                  [class.border-red-500]="esInvalido('aulaId')">
+                  <option value="" disabled selected>Seleccione un aula</option>
+
+                  @for (aula of listAulas; track aula.id) {
+                  <option [value]="aula.id">{{ aula.nombre }}</option>
+                  } @empty {
+                  <option disabled>No hay aulas disponibles en la BD</option>
+                  }
+                </select>
+              </div> -->
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Condición</label>
+                <select formControlName="condicionEstudiante"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 outline-none bg-white">
+                  <option value="Nuevo">Nuevo</option>
+                  <option value="Regular">Regular</option>
+                  <option value="Traslado">Traslado</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Fecha de Registro</label>
+              <input formControlName="fechaRegistro" type="date"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-500 cursor-not-allowed"
+                readonly />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h6 class="text-xs font-bold text-orange-500 uppercase tracking-wider mb-3 border-b pb-1 mt-2">
+            Observaciones
+          </h6>
+          <textarea formControlName="observacionesEstudiante" rows="3"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 outline-none resize-none"
+            placeholder="Ej. Alergias, requerimientos especiales..."></textarea>
+        </div>
+
+        <div class="flex items-start gap-2">
+          <input formControlName="confirmacion" type="checkbox" id="confirmacion"
+            class="mt-1 w-4 h-4 text-orange-500 border-gray-300 rounded focus:ring-orange-500" />
+          <label for="confirmacion" class="text-sm text-gray-600 cursor-pointer">
+            Confirmo que los datos ingresados son verídicos y acepto los términos de matrícula.
+          </label>
+        </div>
+
+        <div class="flex gap-4 pt-2">
+          <button type="submit"
+            class="flex-1 bg-orange-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-orange-600 transition-all shadow-md hover:shadow-lg transform active:scale-95">
+            Enviar Solicitud
+          </button>
+
+          <button type="button" (click)="limpiarFormulario()"
+            class="flex-1 bg-white text-orange-500 font-bold py-3 px-4 rounded-lg border border-orange-500 hover:bg-orange-50 transition-colors">
+            Limpiar
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div
+      class="w-full md:w-2/5 bg-[#f0dfc8] p-8 flex items-center justify-center order-1 md:order-2 relative overflow-hidden">
+      <div
+        class="absolute top-0 right-0 w-64 h-64 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-70 translate-x-1/2 -translate-y-1/2">
+      </div>
+      <div
+        class="absolute bottom-0 left-0 w-64 h-64 bg-yellow-200 rounded-full mix-blend-multiply filter blur-3xl opacity-70 -translate-x-1/2 translate-y-1/2">
+      </div>
+
+      <div class="relative z-10 text-center">
+        <img src="img/logo.png" alt="Logo Pequeños Gigantes"
+          class="w-48 h-48 md:w-64 md:h-64 object-cover rounded-full shadow-lg mx-auto mb-6 border-4 border-white" />
+        <h3 class="text-2xl font-bold text-orange-800" style="font-family: 'Pacifico', cursive">
+          Pequeños Gigantes
+        </h3>
+        <p class="text-orange-700 mt-2">Formando el futuro con amor y excelencia.</p>
+      </div>
+    </div>
+  </div>
+</div>
